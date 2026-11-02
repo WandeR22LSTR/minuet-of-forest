@@ -113,7 +113,7 @@
           "type": "card",
           "props": {
             "title": "Docs",
-            "text": "[one line about the docs]",
+            "text": "Documentation for project development and research processes.",
             "href": "/docs/",
             "pending": "",
             "style": "plain"
@@ -138,7 +138,7 @@
           "type": "card",
           "props": {
             "title": "CV",
-            "text": "[one line about the CV]",
+            "text": "Collection of professional materials, research overview, resume, CV, etc.",
             "href": "/cv/",
             "pending": "",
             "style": "plain"
@@ -163,7 +163,7 @@
           "type": "card",
           "props": {
             "title": "Garden",
-            "text": "[one line about the garden]",
+            "text": "Digital showcase of my Obsidian Vault, Japanese learning journey, and public writing.",
             "href": "/garden/",
             "pending": "",
             "style": "plain"
@@ -188,7 +188,7 @@
           "type": "card",
           "props": {
             "title": "About",
-            "text": "[one line about the About page]",
+            "text": "Statement of purpose for Minuet.",
             "href": "/about/",
             "pending": "",
             "style": "plain"

@@ -41,6 +41,29 @@
       "route": "/garden/"
     }
   ],
+  "data": [
+    {
+      "name": "Site text",
+      "file": "src/data/copy.yaml",
+      "route": "/"
+    },
+    {
+      "name": "Contact",
+      "file": "src/data/contact.yaml",
+      "route": "/about/"
+    },
+    {
+      "name": "Projects",
+      "file": "src/data/projects.yaml",
+      "route": "/docs/"
+    },
+    {
+      "name": "Resume",
+      "file": "src/data/resume.yaml",
+      "route": "/resume/"
+    }
+  ],
+  "roadmap": "docs/roadmap.md",
   "breakpoints": [
     {
       "name": "md",

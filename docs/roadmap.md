@@ -6,7 +6,7 @@ From 0.9 (four sections built, every page editable in Lens of Truth) to a finish
 
 ## How to work through it
 1. **Pick the next unticked item** below, in milestone order.
-2. **Write it in Lens:**
+2. **Write it in Lens** (**☰ Menu** shows every page and data file with what's left to write):
    - Layout pages (Home, About, CV, Garden) and Markdown pages (docs, research, Currently) are in the page picker.
    - Fill in the `[placeholders]` and replace the `TODO(Luca)` lines.
    - Check it with **▶ Preview** at 360 and 1280.
@@ -15,7 +15,7 @@ From 0.9 (four sections built, every page editable in Lens of Truth) to a finish
 5. **See what's left** with `npm run todos`. A section is done when its checklist is ticked and `todos` lists nothing for it.
 6. **Structure changes** (a new page, a new block type, a layout that Lens can't make) are for Nabooru: start a chat on this repo with what you want.
 
-Text that isn't in Lens yet lives in YAML: `src/data/copy.yaml` (page descriptions, 404), `contact.yaml`, `resume.yaml` and `projects.yaml`. Edit those in any text editor, or ask Nabooru to make them editable in Lens.
+Text that isn't on a page lives in YAML data files: site text (`copy.yaml`: page descriptions, 404), contact, projects and the resume. They're in Lens too: **☰ Menu → Data files** opens each as a form beside the page that shows it. This roadmap is in **☰ Menu** as well: tick items there and Lens updates this file.
 
 ## Milestone 1: Nothing unfinished on show
 Every published page reads as finished, so the site can be shared. Drafts can stay drafts.

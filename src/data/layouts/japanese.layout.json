@@ -42,32 +42,17 @@
     {
       "id": "ja-work",
       "props": {
-        "label": "Portfolio",
+        "label": "Pages",
         "surface": "base",
         "padding": "md",
         "gap": "md"
       },
       "blocks": [
         {
-          "id": "ja-heading",
-          "type": "heading",
+          "id": "ja-pages",
+          "type": "page-list",
           "props": {
-            "text": "[section heading]",
-            "level": 2,
-            "align": "start"
-          },
-          "layout": {
-            "col": 1,
-            "span": 12
-          }
-        },
-        {
-          "id": "ja-body",
-          "type": "text",
-          "props": {
-            "markdown": "[text]",
-            "maxWidth": "prose",
-            "align": "start"
+            "heading": "[heading for the list of pages]"
           },
           "layout": {
             "col": 1,

@@ -44,6 +44,11 @@
       "name": "Garden",
       "dir": "src/content/pages",
       "route": "/garden/"
+    },
+    {
+      "name": "Japanese",
+      "dir": "src/content/japanese",
+      "route": "/japanese/"
     }
   ],
   "data": [

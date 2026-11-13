@@ -15,6 +15,16 @@ export const collections = {
       updated: z.coerce.date().optional(),
     }),
   }),
+  // Japanese section pages: one Markdown file per page, at /japanese/<name>/.
+  japanese: defineCollection({
+    loader: glob({ pattern: "*.md", base: "./src/content/japanese" }),
+    schema: z.object({
+      title: z.string(),
+      description: z.string(),
+      draft: z.boolean().default(false),
+      updated: z.coerce.date().optional(),
+    }),
+  }),
   // Capstone progress log: one file per entry, YYYY-MM-DD-slug.md (README.md is skipped).
   capstoneLog: defineCollection({
     loader: glob({ pattern: "[0-9]*.md", base: "./src/content/capstone-log" }),

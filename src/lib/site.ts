@@ -83,6 +83,12 @@ export async function isPublished(href: string) {
   return !entry || (await liveEntries()).has(entry);
 }
 
+/** The Japanese section's pages, in title order: drafts only while developing. */
+export async function japanesePages() {
+  const pages = await getCollection("japanese", ({ data }) => SHOW_DRAFTS || !data.draft);
+  return pages.sort((a, b) => a.data.title.localeCompare(b.data.title));
+}
+
 /** The first section of the Currently page (its heading, then its lines), if the page is published. */
 export async function currentlySnippet() {
   const now = (await publishedPages()).find((p) => p.id === "currently");

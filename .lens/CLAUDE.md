@@ -17,7 +17,7 @@ This folder adapts **Lens of Truth**, Luca's private desktop layout editor, to *
 ## How Lens fits Minuet
 The full handoff is `docs/lens-of-truth-handoff.md`. Minuet's own `CLAUDE.md` wins wherever the two meet.
 
-- **Pages:** home, About, CV, Garden and Japanese are Lens pages (`src/pages/index.astro`, `about.astro`, `cv.astro`, `garden/index.astro`, `japanese.astro`), with layouts in `src/data/layouts/`. Docs, research and Garden's Markdown pages (`src/content/docs/`, `src/content/pages/`) are listed under `content` in `lens.config.json`: Lens 0.4.0 edits them as text beside the live page, and creates new ones as drafts. Only the capstone log (one page built from many files) isn't editable in Lens yet.
+- **Pages:** home, About, CV, Garden and Japanese are Lens pages (`src/pages/index.astro`, `about.astro`, `cv.astro`, `garden/index.astro`, `japanese.astro`), with layouts in `src/data/layouts/`. Docs, research, Garden's and the Japanese section's Markdown pages (`src/content/docs/`, `src/content/pages/`, `src/content/japanese/`) are listed under `content` in `lens.config.json`: Lens 0.4.0 edits them as text beside the live page, and creates new ones as drafts. Only the capstone log (one page built from many files) isn't editable in Lens yet.
 - **Base path:** `base` in `lens.config.json` is `/minuet-of-forest` and must match `BASE` in `site.config.mjs`. If BASE changes (a custom domain), change it here too. Layouts store site paths without the base; the renderer adds it.
 - **Drafts:** `"drafts": true` in `lens.config.json`. Lens starts the dev server with `LENS_DRAFTS=0`, and Minuet's dev mode then hides draft pages as the build does (`SHOW_DRAFTS` in `src/lib/site.ts`, `DEV` in `astro.config.mjs`), so Lens shows the site as published. Lens's Drafts switch sets `LENS_DRAFTS=1` to show them. Starlight's own draft pages (research, docs) can still be opened by address in dev; only Minuet's links and navigation hide them.
 - **Data files and roadmap:** `data` in `lens.config.json` lists `src/data/copy.yaml`, `contact.yaml`, `projects.yaml`, `resume.yaml` (Physics) and `resume-jp.yaml` (Japanese), which Lens edits as forms (keep them block-style YAML with comments); `roadmap` is `docs/roadmap.md`, ticked in Lens's project menu.
@@ -28,6 +28,7 @@ The full handoff is `docs/lens-of-truth-handoff.md`. Minuet's own `CLAUDE.md` wi
 - **Minuet block types** keep the site's dynamic parts working:
   - `logo`: the site logo (`src/components/Logo.astro`).
   - `card`: a white box, or `plain` for a row of short previews (the homepage's band of sections). Its title links only once the linked page is published (`isPublished()` in `src/lib/site.ts`); until then it shows its note.
+  - `page-list`: the Japanese section's published pages (`src/content/japanese/`), with their descriptions, on the `/japanese/` landing page. Nothing in the build until one is published.
   - `contacts`: the contact details from `src/data/contact.yaml`, on About and CV, so they always match.
   - `currently`: the first section of the Currently page (`currentlySnippet()`), shown only while that page is published, linking to `/garden/currently/`.
 - **Buttons** to a draft page (the homepage's Research button) wait until it's published: nothing in the build, and a dashed note in Lens so they can still be selected.

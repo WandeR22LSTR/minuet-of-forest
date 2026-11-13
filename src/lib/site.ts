@@ -1,6 +1,8 @@
 import { getCollection } from "astro:content";
 import { parse } from "yaml";
 import copyRaw from "../data/copy.yaml?raw";
+import resumeRaw from "../data/resume.yaml?raw";
+import resumeJpRaw from "../data/resume-jp.yaml?raw";
 
 /** Site copy (src/data/copy.yaml). Placeholders in [brackets] until Luca writes them. */
 export const copy = parse(copyRaw);
@@ -48,11 +50,12 @@ export async function researchPublished() {
   return (await getCollection("docs", ({ id, data }) => id === "research" && (SHOW_DRAFTS || !data.draft))).length > 0;
 }
 
-/** Main navigation: the site's four sections. */
+/** Main navigation: the site's five sections. */
 const NAV = [
   { href: "/docs/", label: "Docs" },
   { href: "/cv/", label: "CV" },
   { href: "/garden/", label: "Garden" },
+  { href: "/japanese/", label: "Japanese" },
   { href: "/about/", label: "About" },
 ];
 
@@ -80,9 +83,27 @@ export async function isPublished(href: string) {
   return !entry || (await liveEntries()).has(entry);
 }
 
+/** The Japanese section's pages, in title order: drafts only while developing. */
+export async function japanesePages() {
+  const pages = await getCollection("japanese", ({ data }) => SHOW_DRAFTS || !data.draft);
+  return pages.sort((a, b) => a.data.title.localeCompare(b.data.title));
+}
+
 /** The first section of the Currently page (its heading, then its lines), if the page is published. */
 export async function currentlySnippet() {
   const now = (await publishedPages()).find((p) => p.id === "currently");
   const lines = now?.body?.split(/^## /m)[1]?.split("\n").filter(Boolean);
   return lines ? { heading: lines[0], text: lines.slice(1).join(" ") } : undefined;
+}
+
+/** The resume versions, for the switch at the top of each: name (from its data file) and address. */
+export function resumeVersions() {
+  const label = (raw: string, fallback: string) => {
+    const v = (parse(raw) as { version?: unknown } | null)?.version;
+    return typeof v === "string" && v.trim() && !isTodo(v) ? v : fallback;
+  };
+  return [
+    { label: label(resumeRaw, "Physics"), href: "/resume/", pdf: "/resume.pdf" },
+    { label: label(resumeJpRaw, "Japanese"), href: "/resume/jp/", pdf: "/resume-jp.pdf" },
+  ];
 }

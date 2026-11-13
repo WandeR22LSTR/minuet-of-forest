@@ -7,7 +7,7 @@
 import { renderMarkdown, withBase } from './markdown';
 import config from './lens.config.json';
 import Logo from '../src/components/Logo.astro';
-import { isPublished, currentlySnippet, clean } from '../src/lib/site';
+import { isPublished, currentlySnippet, clean, japanesePages } from '../src/lib/site';
 import { parse } from 'yaml';
 import contactRaw from '../src/data/contact.yaml?raw';
 import { GITHUB_URL } from '../site.config.mjs';
@@ -57,7 +57,9 @@ const contact = block.type === 'contacts' ? ((clean(parse(contactRaw)) ?? {}) as
 // The Currently snippet exists only while the Currently page is published. Without it the
 // block renders nothing in the build, and a note in dev so Lens can still select it.
 const now = block.type === 'currently' ? await currentlySnippet() : undefined;
-const empty = !dev && ((block.type === 'currently' && !now) || !buttonLive);
+// The Japanese section's published pages; nothing in the build until one is published.
+const listed = block.type === 'page-list' ? await japanesePages() : [];
+const empty = !dev && ((block.type === 'currently' && !now) || !buttonLive || (block.type === 'page-list' && listed.length === 0));
 ---
 {!empty && (<div
   class={`lens-block lens-type-${block.type}`}
@@ -115,6 +117,21 @@ const empty = !dev && ((block.type === 'currently' && !now) || !buttonLive);
     </section>
   ) : (
     <div class="lens-empty">Currently snippet: shown once the Currently page is published</div>
+  ))}
+  {block.type === 'page-list' && (listed.length ? (
+    <section aria-labelledby={`lens-${block.id}`}>
+      <h2 id={`lens-${block.id}`}>{p.heading}</h2>
+      <ul class="page-list">
+        {listed.map((e) => (
+          <li>
+            <a href={site(`/japanese/${e.id}/`)}>{e.data.title}</a>
+            {e.data.description && <p>{e.data.description}</p>}
+          </li>
+        ))}
+      </ul>
+    </section>
+  ) : (
+    <div class="lens-empty">Page list: shows the Japanese section's pages once one is published</div>
   ))}
   {block.type === 'contacts' && (
     <section aria-labelledby={`lens-${block.id}`}>
@@ -182,6 +199,22 @@ const empty = !dev && ((block.type === 'currently' && !now) || !buttonLive);
   }
   .lens-button-row {
     margin: 0;
+  }
+  .page-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.75rem;
+  }
+  .page-list a {
+    font-weight: 600;
+  }
+  .page-list p {
+    margin: 0.15rem 0 0;
+  }
+  .lens-type-page-list section > :global(:first-child) {
+    margin-top: 0;
   }
   .lens-type-contacts ul {
     margin: 0;

@@ -1,0 +1,9 @@
+---
+import Base from "../../layouts/Base.astro";
+import ResumeView from "../../components/ResumeView.astro";
+import { copy } from "../../lib/site";
+import raw from "../../data/resume-jp.yaml?raw";
+---
+<Base title="Resume (Japanese)" description={copy.resume_jp.description} minimal>
+  <ResumeView raw={raw} pdf="/resume-jp.pdf" pageTitle="Resume (Japanese)" empty={copy.resume.empty} />
+</Base>

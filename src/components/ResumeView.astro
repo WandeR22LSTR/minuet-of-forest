@@ -1,13 +1,14 @@
 ---
 // Renders resume.yaml. Used for the web page and, via print media, the PDF.
 import { parse } from "yaml";
-import { clean, url } from "../lib/site";
+import { clean, url, resumeVersions } from "../lib/site";
 import { SITE } from "../../site.config.mjs";
 
 interface Item { title?: string; org?: string; location?: string; dates?: string; bullets?: string[] }
 interface Doc { name?: string; headline?: string; email?: string; github?: string; sections?: { title: string; items?: Item[] }[] }
 interface Props { raw: string; pdf: string; pageTitle: string; empty: string }
 const { raw, pdf, pageTitle, empty } = Astro.props;
+const versions = resumeVersions();
 const d = (clean(parse(raw)) ?? {}) as Doc;
 const sections = (d.sections ?? []).filter((s) => s.items?.some((i) => i.title));
 const siteUrl = new URL(url("/"), SITE).href;
@@ -24,7 +25,17 @@ const host = (u: string) => u.replace(/^https?:\/\//, "").replace(/\/$/, "");
       <li><a href={pageUrl}>{host(siteUrl)}</a></li>
       {d.github && <li><a href={d.github}>{host(d.github)}</a></li>}
     </ul>
-    <p class="actions"><a class="button" href={url(pdf)} download>Download PDF</a></p>
+    <div class="actions">
+      <a class="button" href={url(pdf)} download>Download PDF</a>
+      <nav class="versions" aria-label="Resume version">
+        <span class="versions-label">Version</span>
+        <ul>
+          {versions.map((v) => (
+            <li><a href={url(v.href)} aria-current={v.pdf === pdf ? "page" : undefined}>{v.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+    </div>
   </header>
   {sections.length === 0 && <p class="muted">{empty}</p>}
   {sections.map((s) => (
@@ -49,6 +60,13 @@ const host = (u: string) => u.replace(/^https?:\/\//, "").replace(/\/$/, "");
   .headline { margin: 0.25rem 0; font-size: 1.1rem; }
   .contact { list-style: none; padding: 0; margin: 0.5rem 0; display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; }
   .resume h2 { font-size: 1.15rem; border-bottom: 2px solid var(--sage); padding-bottom: 0.2rem; margin-top: 1.5rem; }
+  .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.25rem; margin: 0.75rem 0 0; }
+  .versions { display: flex; align-items: center; gap: 0.5rem; }
+  .versions-label { color: var(--muted); font-size: 0.9rem; }
+  .versions ul { list-style: none; display: flex; margin: 0; padding: 0; border: 2px solid var(--forest); border-radius: 6px; overflow: hidden; }
+  .versions a { display: block; padding: 0.3rem 0.8rem; color: var(--forest); text-decoration: none; font-weight: 600; }
+  .versions a:hover { background: var(--sage); color: var(--forest); }
+  .versions a[aria-current="page"] { background: var(--forest); color: var(--white); }
   .item { margin-bottom: 0.9rem; }
   .item-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 1rem; align-items: baseline; }
   .item h3 { font-size: 1rem; margin: 0; color: var(--text); }

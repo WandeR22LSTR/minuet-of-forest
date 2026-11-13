@@ -1,7 +1,7 @@
 # Site plan
 
-Status: **site map revised 2026-10-31** (four sections, every page reachable from one top bar).
-- **Built:** the four sections below; research and capstone in the docs layout with LaTeX; capstone progress log; a docs section per project with overview and changelog stubs. Home, About, CV and Garden are Lens of Truth pages (see `.lens/CLAUDE.md`).
+Status: **site map revised 2026-11-13** (five sections, every page reachable from one top bar).
+- **Built:** the five sections below; research and capstone in the docs layout with LaTeX; capstone progress log; a docs section per project with overview and changelog stubs. Home, About, CV, Garden and Japanese are Lens of Truth pages (see `.lens/CLAUDE.md`).
 - **Waiting:** the project registry, until the Ice Cavern session's format arrives. Diagrams and notebooks will be set up when the first ones arrive. Garden's Obsidian notes, screenshots and demos come later.
 
 ## Readers
@@ -11,7 +11,7 @@ Status: **site map revised 2026-10-31** (four sections, every page reachable fro
 Ocarina of Time names appear in the project sections. The professional pages (home, CV, research, resume) use plain names.
 
 ## Sections
-The top bar is the main way around the site: **Docs · CV · Garden · About**, on every page, docs and research included. The home page introduces each section in a band of short previews.
+The top bar is the main way around the site: **Docs · CV · Garden · Japanese · About**, on every page, docs and research included. The home page introduces each section in a band of short previews (three, then two).
 
 | Section | Route | What |
 |---|---|---|
@@ -21,7 +21,10 @@ The top bar is the main way around the site: **Docs · CV · Garden · About**, 
 | | `/research/capstone/` | Capstone: overview, **dated progress log** (newest first) and **milestone pages** for its layers |
 | | `/docs/<project>/` | Each project's documentation; `/docs/<project>/changelog/` its changelog |
 | **CV** | `/cv/` | The professional page, for sterile contexts: a research highlight, selected projects, the resume and PDF, contact details. It overlaps the other sections on purpose |
-| | `/resume/` + `/resume.pdf` | Resume, unchanged, linked from CV |
+| | `/resume/` + `/resume.pdf` | Resume (Physics version), linked from CV |
+| | `/resume/jp/` + `/resume-jp.pdf` | Resume (Japanese version, leading with Japanese coursework). A switch at the top of each resume moves between the two. Versions tailored to one application are made outside the site |
+| **Japanese** | `/japanese/` | The portfolio of Luca's Japanese study: coursework, language progress, projects and writing samples. A landing page (Lens) that lists the section's pages and links to the Japanese resume |
+| | `/japanese/<name>/` | One Markdown page per area (`src/content/japanese/`), added and rearranged in Lens as the section's requirements arrive |
 | **Garden** | `/garden/` | Digital garden: Currently now; a published slice of the Obsidian vault, project screenshots and demos later |
 | | `/garden/currently/` | Currently: what Luca is reading, watching, playing and listening to, with a "last updated" date |
 | **About** | `/about/` | About this portfolio, the site's statement of purpose, and contact details |

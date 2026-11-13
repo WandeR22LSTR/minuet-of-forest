@@ -20,13 +20,14 @@ Light, easy on the eyes: warm off-white, sage tints, dark forest green as the ma
 
 ## Layout
 - `CLAUDE.md` (this file), `DEPLOY.md` (Luca's deploy steps)
-- `docs/`: roadmap to 1.0 (`roadmap.md`), site plan (`site-plan.md`: the four sections Docs, CV, Garden, About), handoff 01, design spec, logo spec, sibling projects, Temple of Time summary and outline, Lens of Truth handoff (`lens-of-truth-handoff.md`)
+- `docs/`: roadmap to 1.0 (`roadmap.md`), site plan (`site-plan.md`: the five sections Docs, CV, Garden, Japanese, About), handoff 01, design spec, logo spec, sibling projects, Temple of Time summary and outline, Lens of Truth handoff (`lens-of-truth-handoff.md`)
 - `site.config.mjs`: SITE, BASE, NOCTURNE_URL
 - `src/data/copy.yaml`: site copy (except the Lens pages', which is in their layouts), as `[placeholders]` until Luca writes it
-- `src/data/*.yaml`: resume, projects, contact
-- `src/data/layouts/`: Lens of Truth layouts, text included: home, About, CV and Garden
+- `src/data/*.yaml`: resume (Physics) and resume-jp (Japanese), projects, contact
+- `src/data/layouts/`: Lens of Truth layouts, text included: home, About, CV, Garden and Japanese
 - `.lens/`: Lens of Truth adapter (config, block types, renderer, its own `CLAUDE.md`)
 - `src/content/pages/*.md`: Garden pages written in Markdown (currently), at `/garden/<name>/`
+- `src/content/japanese/*.md`: Japanese section pages (coursework, language progress, projects, writing samples), at `/japanese/<name>/`, listed on the `/japanese/` landing page
 - `src/content/docs/research/`: research (GRB fellowship page, capstone overview and milestone pages). `src/content/capstone-log/`: capstone progress log, one file per entry
 - `src/content/docs/docs/<project>/`: project docs (overview, pages, changelog). New projects also go in `PROJECTS` in `astro.config.mjs`
 - `scripts/`: PDF build, dist checks, accessibility, privacy scan, todo listing; `scripts/logos/`: shared logo engine (`engine.mjs`), medallion plate (`plate.mjs`) and one file per project
@@ -47,7 +48,7 @@ Light, easy on the eyes: warm off-white, sage tints, dark forest green as the ma
 Set `CHROMIUM_PATH` to use an installed Chromium instead of `npx playwright install chromium`.
 
 ## Versioning
-The site version lives in `package.json` and shows in the footer next to the medallion. Bump it for each release and add an entry to `CHANGELOG.md`.
+The site version lives in `package.json` and shows in the footer next to the medallion. Bump it for each release and add an entry to `CHANGELOG.md`. The middle number only goes up to 9: after `x.9.0`, releases step the last number (`0.9.1`, `0.9.2`, …), never `0.10.0`.
 
 ## Workflow
 Read the handoff you were given, meet its acceptance test, and list anything you could not verify. Commit in small steps.

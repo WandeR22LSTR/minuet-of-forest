@@ -362,6 +362,23 @@
           "help": "The details themselves come from src/data/contact.yaml, so About and CV always match."
         }
       }
+    },
+    "page-list": {
+      "label": "Page list",
+      "layout": {
+        "col": 1,
+        "span": 12
+      },
+      "props": {
+        "heading": {
+          "kind": "text",
+          "label": "Heading",
+          "default": "[heading]",
+          "required": true,
+          "maxLength": 80,
+          "help": "Lists the Japanese section's published pages (src/content/japanese/), with their descriptions. Add pages in Lens: Japanese (Markdown) \u2192 + New page here."
+        }
+      }
     }
   }
 }

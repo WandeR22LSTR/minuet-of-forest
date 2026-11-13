@@ -1,8 +1,8 @@
 # Roadmap to 1.0
 
-From 0.9 (four sections built, every page editable in Lens of Truth) to a finished site people can find their way around. The structure is done (`docs/site-plan.md`); what's left is mostly Luca's writing, a few decisions only Luca can make, and a visual pass.
+From 0.9 (five sections built, every page editable in Lens of Truth) to a finished site people can find their way around. The structure is done (`docs/site-plan.md`); what's left is mostly Luca's writing, a few decisions only Luca can make, and a visual pass.
 
-**Where things stand (2026-11-12):** the homepage is written. Nothing else is yet: every other published page still shows `[placeholders]` to visitors, and research, Currently and every project's docs are drafts. This month the internship, REU and study abroad applications come first, so the roadmap starts with a sprint on the resume, research and CV.
+**Where things stand (2026-11-13):** the homepage is written and the contact email is set. Everything else still shows `[placeholders]` to visitors, and research, Currently and every project's docs are drafts. This month the internship, REU and study abroad applications come first, so the roadmap starts with a sprint on the resume, research, CV and Japanese section.
 
 ## How to work through it
 1. **Pick the next unticked item** below, in milestone order.
@@ -17,25 +17,25 @@ From 0.9 (four sections built, every page editable in Lens of Truth) to a finish
 
 Text that isn't on a page lives in YAML data files: site text (`copy.yaml`: page descriptions, 404), contact, projects and the resume. They're in Lens too: **☰ Menu → Data files** opens each as a form beside the page that shows it. This roadmap is in **☰ Menu** as well: tick items there and Lens updates this file.
 
-## Applications sprint: resume, research, CV
-For the internship, REU and study abroad applications. These come before everything else, in this order: each assignment is one sitting, and the earlier ones unblock the later ones. Reviewers arrive from the link on the resume, so the resume, the research page and the CV page are what they see.
+## Applications sprint: resume, research, CV, Japanese
+For the internship, REU and study abroad applications. These come before everything else, in this order: each assignment is one sitting. Reviewers arrive from the link on the resume, so the resume, the research page, the CV page and the Japanese section are what they see.
 
-### Assignment 1: Start what has a waiting time (10 minutes)
-- [ ] Write down each application's deadline and what it asks for (resume, statement, references), wherever you keep such notes.
-- [ ] Ask your PI to approve the wording of the research overview, and whether the group and supervisor can be named.
-- [ ] Decide the email address to show (**Data files → Contact**, and the resume's email).
+This list is only what shows on the site. Deadlines, requirements, statements, letters and which resume to send where are tracked outside this repo (it's public). Versions tailored to a single application are made there too; the site holds the two general ones.
 
-### Assignment 2: Resume (**Data files → Resume**)
-- [ ] Headline.
-- [ ] Education: degree, institution, location, dates, bullets.
-- [ ] Research experience: position, group, dates, what you did (wording checked with your PI).
-- [ ] Skills, including languages.
-- [ ] Projects: only ones you can describe publicly now. Leave Temple of Time out until its summary is approved.
-- [ ] Open `/resume/` with **▶ Preview**, and check `resume.pdf` as printed after a build.
+### Assignment 1: The facts the site needs
+- [x] Email to show: decided, and entered in Contact and both resumes (change it in **Data files** if that ever changes).
+- [x] Research credit: the group name and credits as presented at the A&S summer fellowship poster.
+- [ ] Read the Contact page and both resumes once on the live site, since the email is public.
 
-### Assignment 3: Research page (**Docs and research → Research**)
-- [ ] Overview paragraph (PI-approved wording).
-- [ ] The fellowship: programme, group, supervisor (only if they agree), dates.
+### Assignment 2: Resume (by Dec 1)
+Two versions, switched with the button at the top of each: **Physics** (`/resume/`) and **Japanese** (`/resume/jp/`), each with its own PDF. What each version says and leads with is decided on the applications side; this list is only getting it onto the site.
+- [ ] **Resume (Physics)** (**Data files**): headline, education, research experience (credits as on the poster), skills, projects. Leave Temple of Time out until its summary is approved.
+- [ ] **Resume (Japanese)** (**Data files**): its entries, as decided on the applications side.
+- [ ] Open both with **▶ Preview**, and check both PDFs as printed after a build.
+
+### Assignment 3: Research page (by early January; **Docs and research → Research**)
+- [ ] Overview paragraph, starting from the poster's wording.
+- [ ] The fellowship: programme, group and credits as on the poster, dates.
 - [ ] The question, the data, and the method (maths in `$...$`, code blocks).
 - [ ] Results: figures with captions (**Add image…**).
 - [ ] Notebooks and code links; what's next; publications only if any exist, else delete the section.
@@ -45,17 +45,23 @@ For the internship, REU and study abroad applications. These come before everyth
 - [ ] CV: research highlight (and delete its "until published" note once research is live).
 - [ ] CV: selected projects. For each card: title, one line, **Link** to its docs. Remove a card you can't fill yet.
 - [ ] CV: label for the PDF button.
-- [ ] Site description and the CV and resume page descriptions (**Data files → Site text**): the lines link previews show.
-- [ ] About: about this portfolio, and the statement of purpose.
+- [ ] Site description, and the descriptions of the CV, resume, Japanese resume and Japanese pages (**Data files → Site text**): the lines link previews show.
+- [ ] About: about this portfolio, and the statement of purpose *of the site* (not your application statement).
 
 ### Assignment 5: Capstone (**Docs and research → Capstone**)
 - [ ] Overview and its three layers. Publish it.
 - [ ] Capstone progress log: the first entry, in `src/content/capstone-log/` (Nabooru can make these editable in Lens).
 
-### Assignment 6: Japanese and study abroad
-- [ ] Decide where Japanese shows: a Languages line on the resume (Assignment 2), a section on the CV page, a Garden page for the learning journey, or a mix. Tell Nabooru, who builds the section; you write it.
+### Assignment 6: Japanese section (by early January; `/japanese/`, in the top bar)
+All of it shows here: coursework, language progress, projects and writing samples. Each is its own page under `/japanese/`, so the section can be rearranged as its requirements arrive.
+- [ ] The landing page: introduction, and the heading over the list of pages (**Pages → japanese**). The list fills itself with every published page.
+- [ ] **Japanese (Markdown) → Coursework**, **Language progress**, **Projects**, **Writing samples**: they start as drafts. Write each, untick **Draft**, and it appears on the landing page. Rename, delete or add pages (**+ New page here**) as needed.
+- [ ] One line about the section on the homepage, and its description (**Data files → Site text**).
+- [ ] The **Resume (Japanese)** button on the landing page leads to the Japanese resume.
 
-**Done when:** `/resume/`, `/research/` and `/cv/` show no placeholders or `TODO`, the PDF reads well printed, and the link is on your applications.
+**Pacing:** both resumes polished by **Dec 1**, the first day a reviewer may open the site; the research page and the Japanese section by **early January**; the CV page and the rest alongside.
+
+**Done when:** `/resume/`, `/resume/jp/`, `/research/`, `/cv/` and `/japanese/` show no placeholders or `TODO`, both PDFs read well printed, and the links are on your applications.
 
 ## Milestone 1: The rest of what's on show
 Every other published page reads as finished. Drafts can stay drafts.

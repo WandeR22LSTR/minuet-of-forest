@@ -3,6 +3,12 @@
 The version is in `package.json` and shows in the site footer next to the medallion.
 Bump it with every release and add an entry here.
 
+## 0.10.0 (2026-11-13)
+- **Japanese** joins the top bar as a fifth section (`/japanese/`): a Lens page for the portfolio of Luca's Japanese study, with a button to the Japanese resume. The homepage band previews five sections (three, then two).
+- **Two resumes:** Physics (`/resume/`, `resume.pdf`) and Japanese (`/resume/jp/`, `resume-jp.pdf`), each from its own data file and both editable in Lens. A switch at the top of each moves between them, and each version's name comes from its file (`version`). Checks cover both pages and both PDFs; Japanese text prints as selectable text in the PDF.
+- Contact email set, in Contact and both resumes.
+- Roadmap: the applications sprint updated for what's decided (email, research credit as on the fellowship poster), with the two resumes and the Japanese section. Application details stay outside this public repo.
+
 ## 0.9.0 (2026-10-31)
 Four sections, one top bar: **Docs · CV · Garden · About** (see `docs/site-plan.md`).
 - **Docs** absorbs Projects: the Docs landing page lists every project and links to research once it's published. The site's top bar now also shows on docs and research pages (in Starlight's menu on phones).

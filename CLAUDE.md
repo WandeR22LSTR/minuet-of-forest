@@ -20,11 +20,11 @@ Light, easy on the eyes: warm off-white, sage tints, dark forest green as the ma
 
 ## Layout
 - `CLAUDE.md` (this file), `DEPLOY.md` (Luca's deploy steps)
-- `docs/`: roadmap to 1.0 (`roadmap.md`), site plan (`site-plan.md`: the four sections Docs, CV, Garden, About), handoff 01, design spec, logo spec, sibling projects, Temple of Time summary and outline, Lens of Truth handoff (`lens-of-truth-handoff.md`)
+- `docs/`: roadmap to 1.0 (`roadmap.md`), site plan (`site-plan.md`: the five sections Docs, CV, Garden, Japanese, About), handoff 01, design spec, logo spec, sibling projects, Temple of Time summary and outline, Lens of Truth handoff (`lens-of-truth-handoff.md`)
 - `site.config.mjs`: SITE, BASE, NOCTURNE_URL
 - `src/data/copy.yaml`: site copy (except the Lens pages', which is in their layouts), as `[placeholders]` until Luca writes it
-- `src/data/*.yaml`: resume, projects, contact
-- `src/data/layouts/`: Lens of Truth layouts, text included: home, About, CV and Garden
+- `src/data/*.yaml`: resume (Physics) and resume-jp (Japanese), projects, contact
+- `src/data/layouts/`: Lens of Truth layouts, text included: home, About, CV, Garden and Japanese
 - `.lens/`: Lens of Truth adapter (config, block types, renderer, its own `CLAUDE.md`)
 - `src/content/pages/*.md`: Garden pages written in Markdown (currently), at `/garden/<name>/`
 - `src/content/docs/research/`: research (GRB fellowship page, capstone overview and milestone pages). `src/content/capstone-log/`: capstone progress log, one file per entry

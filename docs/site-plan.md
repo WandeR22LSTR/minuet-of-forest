@@ -23,7 +23,8 @@ The top bar is the main way around the site: **Docs · CV · Garden · Japanese 
 | **CV** | `/cv/` | The professional page, for sterile contexts: a research highlight, selected projects, the resume and PDF, contact details. It overlaps the other sections on purpose |
 | | `/resume/` + `/resume.pdf` | Resume (Physics version), linked from CV |
 | | `/resume/jp/` + `/resume-jp.pdf` | Resume (Japanese version, leading with Japanese coursework). A switch at the top of each resume moves between the two. Versions tailored to one application are made outside the site |
-| **Japanese** | `/japanese/` | The portfolio of Luca's Japanese study: coursework, study abroad preparation, language progress. Links to the Japanese resume. More pages can be added under it |
+| **Japanese** | `/japanese/` | The portfolio of Luca's Japanese study: coursework, language progress, projects and writing samples. A landing page (Lens) that lists the section's pages and links to the Japanese resume |
+| | `/japanese/<name>/` | One Markdown page per area (`src/content/japanese/`), added and rearranged in Lens as the section's requirements arrive |
 | **Garden** | `/garden/` | Digital garden: Currently now; a published slice of the Obsidian vault, project screenshots and demos later |
 | | `/garden/currently/` | Currently: what Luca is reading, watching, playing and listening to, with a "last updated" date |
 | **About** | `/about/` | About this portfolio, the site's statement of purpose, and contact details |

@@ -27,6 +27,7 @@ Light, easy on the eyes: warm off-white, sage tints, dark forest green as the ma
 - `src/data/layouts/`: Lens of Truth layouts, text included: home, About, CV, Garden and Japanese
 - `.lens/`: Lens of Truth adapter (config, block types, renderer, its own `CLAUDE.md`)
 - `src/content/pages/*.md`: Garden pages written in Markdown (currently), at `/garden/<name>/`
+- `src/content/japanese/*.md`: Japanese section pages (coursework, language progress, projects, writing samples), at `/japanese/<name>/`, listed on the `/japanese/` landing page
 - `src/content/docs/research/`: research (GRB fellowship page, capstone overview and milestone pages). `src/content/capstone-log/`: capstone progress log, one file per entry
 - `src/content/docs/docs/<project>/`: project docs (overview, pages, changelog). New projects also go in `PROJECTS` in `astro.config.mjs`
 - `scripts/`: PDF build, dist checks, accessibility, privacy scan, todo listing; `scripts/logos/`: shared logo engine (`engine.mjs`), medallion plate (`plate.mjs`) and one file per project

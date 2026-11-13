@@ -27,17 +27,13 @@ This list is only what shows on the site. Deadlines, requirements, statements, l
 - [x] Research credit: the group name and credits as presented at the A&S summer fellowship poster.
 - [ ] Read the Contact page and both resumes once on the live site, since the email is public.
 
-### Assignment 2: Resume
-Two versions, switched with the button at the top of each: **Physics** (`/resume/`) and **Japanese** (`/resume/jp/`), each with its own PDF.
-- [ ] **Resume (Physics)** (**Data files**): headline.
-- [ ] Education: degree, institution, location, dates, bullets. Coursework matters here, so list the relevant courses.
-- [ ] Research experience: position, group, dates, what you did, with credits as on the poster.
-- [ ] Skills, including languages.
-- [ ] Projects: only ones you can describe publicly now. Leave Temple of Time out until its summary is approved.
-- [ ] **Resume (Japanese)**: once the Physics one is written, copy its entries across and lead with the Japanese coursework.
+### Assignment 2: Resume (by Dec 1)
+Two versions, switched with the button at the top of each: **Physics** (`/resume/`) and **Japanese** (`/resume/jp/`), each with its own PDF. What each version says and leads with is decided on the applications side; this list is only getting it onto the site.
+- [ ] **Resume (Physics)** (**Data files**): headline, education, research experience (credits as on the poster), skills, projects. Leave Temple of Time out until its summary is approved.
+- [ ] **Resume (Japanese)** (**Data files**): its entries, as decided on the applications side.
 - [ ] Open both with **▶ Preview**, and check both PDFs as printed after a build.
 
-### Assignment 3: Research page (**Docs and research → Research**)
+### Assignment 3: Research page (by early January; **Docs and research → Research**)
 - [ ] Overview paragraph, starting from the poster's wording.
 - [ ] The fellowship: programme, group and credits as on the poster, dates.
 - [ ] The question, the data, and the method (maths in `$...$`, code blocks).
@@ -56,11 +52,14 @@ Two versions, switched with the button at the top of each: **Physics** (`/resume
 - [ ] Overview and its three layers. Publish it.
 - [ ] Capstone progress log: the first entry, in `src/content/capstone-log/` (Nabooru can make these editable in Lens).
 
-### Assignment 6: Japanese section (`/japanese/`, in the top bar)
-- [ ] Introduction to the Japanese portfolio, and a first section (heading and text). **+ Heading** and **+ Text** in Lens add more.
-- [ ] Decide what goes in it (coursework, study abroad preparation, language progress). Tell Nabooru if you want pages beyond the one, and they'll be built.
-- [ ] One line about it on the homepage, and its description (**Data files → Site text**).
-- [ ] The **Resume (Japanese)** button on the page leads to the Japanese resume.
+### Assignment 6: Japanese section (by early January; `/japanese/`, in the top bar)
+All of it shows here: coursework, language progress, projects and writing samples. Each is its own page under `/japanese/`, so the section can be rearranged as its requirements arrive.
+- [ ] The landing page: introduction, and the heading over the list of pages (**Pages → japanese**). The list fills itself with every published page.
+- [ ] **Japanese (Markdown) → Coursework**, **Language progress**, **Projects**, **Writing samples**: they start as drafts. Write each, untick **Draft**, and it appears on the landing page. Rename, delete or add pages (**+ New page here**) as needed.
+- [ ] One line about the section on the homepage, and its description (**Data files → Site text**).
+- [ ] The **Resume (Japanese)** button on the landing page leads to the Japanese resume.
+
+**Pacing:** both resumes polished by **Dec 1**, the first day a reviewer may open the site; the research page and the Japanese section by **early January**; the CV page and the rest alongside.
 
 **Done when:** `/resume/`, `/resume/jp/`, `/research/`, `/cv/` and `/japanese/` show no placeholders or `TODO`, both PDFs read well printed, and the links are on your applications.
 

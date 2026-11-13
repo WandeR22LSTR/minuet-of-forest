@@ -3,7 +3,7 @@
 The version is in `package.json` and shows in the site footer next to the medallion.
 Bump it with every release and add an entry here.
 
-## 0.10.0 (2026-11-13)
+## 0.9.1 (2026-11-13)
 - **Japanese** joins the top bar as a fifth section (`/japanese/`), for coursework, language progress, projects and writing samples.
   - The landing page is a Lens page: an introduction, an automatic list of the section's published pages (new `page-list` block), and a button to the Japanese resume.
   - Each area is a Markdown page at `/japanese/<name>/` (`src/content/japanese/`), edited and added in Lens. Four start as drafts: Coursework, Language progress, Projects, Writing samples.

@@ -2,8 +2,10 @@
 # Any value containing TODO(Luca) is left out of the web page and the PDF;
 # a section whose items are all TODO disappears. Do not invent entries.
 name: Luca
+# Names this resume in the switch at the top of /resume/ (Physics, Japanese).
+version: Physics
 headline: "TODO(Luca): one-line headline"
-email: "TODO(Luca): email to show"
+email: lsimeoni06@gmail.com
 github: https://github.com/WandeR22LSTR
 sections:
   - title: Education

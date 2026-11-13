@@ -27,6 +27,11 @@
       "name": "garden",
       "layout": "src/data/layouts/garden.layout.json",
       "route": "/garden/"
+    },
+    {
+      "name": "japanese",
+      "layout": "src/data/layouts/japanese.layout.json",
+      "route": "/japanese/"
     }
   ],
   "content": [
@@ -58,9 +63,14 @@
       "route": "/docs/"
     },
     {
-      "name": "Resume",
+      "name": "Resume (Physics)",
       "file": "src/data/resume.yaml",
       "route": "/resume/"
+    },
+    {
+      "name": "Resume (Japanese)",
+      "file": "src/data/resume-jp.yaml",
+      "route": "/resume/jp/"
     }
   ],
   "roadmap": "docs/roadmap.md",

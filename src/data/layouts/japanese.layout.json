@@ -1,0 +1,105 @@
+{
+  "lens": 1,
+  "page": "japanese",
+  "sections": [
+    {
+      "id": "ja-intro",
+      "props": {
+        "label": "Japanese",
+        "surface": "base",
+        "padding": "none",
+        "gap": "md"
+      },
+      "blocks": [
+        {
+          "id": "ja-title",
+          "type": "heading",
+          "props": {
+            "text": "Japanese",
+            "level": 1,
+            "align": "start"
+          },
+          "layout": {
+            "col": 1,
+            "span": 12
+          }
+        },
+        {
+          "id": "ja-text",
+          "type": "text",
+          "props": {
+            "markdown": "[introduction to the Japanese portfolio]",
+            "maxWidth": "prose",
+            "align": "start"
+          },
+          "layout": {
+            "col": 1,
+            "span": 12
+          }
+        }
+      ]
+    },
+    {
+      "id": "ja-work",
+      "props": {
+        "label": "Portfolio",
+        "surface": "base",
+        "padding": "md",
+        "gap": "md"
+      },
+      "blocks": [
+        {
+          "id": "ja-heading",
+          "type": "heading",
+          "props": {
+            "text": "[section heading]",
+            "level": 2,
+            "align": "start"
+          },
+          "layout": {
+            "col": 1,
+            "span": 12
+          }
+        },
+        {
+          "id": "ja-body",
+          "type": "text",
+          "props": {
+            "markdown": "[text]",
+            "maxWidth": "prose",
+            "align": "start"
+          },
+          "layout": {
+            "col": 1,
+            "span": 12
+          }
+        }
+      ]
+    },
+    {
+      "id": "ja-resume",
+      "props": {
+        "label": "Resume",
+        "surface": "base",
+        "padding": "md",
+        "gap": "md"
+      },
+      "blocks": [
+        {
+          "id": "ja-resume-button",
+          "type": "button",
+          "props": {
+            "label": "Resume (Japanese)",
+            "href": "/resume/jp/",
+            "variant": "primary",
+            "align": "start"
+          },
+          "layout": {
+            "col": 1,
+            "span": 12
+          }
+        }
+      ]
+    }
+  ]
+}

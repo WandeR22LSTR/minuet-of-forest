@@ -1,13 +1,13 @@
-// bunny-hood: the Bunny Hood from Ocarina of Time, seen from the front. An original low-poly
-// drawing after the game's item: two long ears splayed slightly outwards, each a golden tan
-// rim around a concave plum inner ear, rising from a hood that wraps round the head, with a
-// crease across the brow, a pointed flap at each side and two small dark eyes.
-// Every facet is a 3D polygon shaded by the shared light (engine.mjs), like the medallions.
-// One mark on a transparent background with a dark outline, like Lens of Truth's, plus a
-// simplified version (flat tones, bigger eyes, heavier outline) for 32 px and under.
-// Coordinates are in a 100-unit design grid (x right, y down, z towards the viewer); the left
-// half is drawn and mirrored.
-import { norm, cross, sub, ramp, svgDoc, f1, pathOf, placement } from "./engine.mjs";
+// bunny-hood: the Bunny Hood from Ocarina of Time, at an angle like the game's render. An
+// original drawing after the item: a hood that wraps round the head, with a pointed flap at
+// each side and two small dark eyes on the brow, and two long rounded ears with a rolled
+// golden tan rim around a concave plum hollow.
+// It is a small 3D model: smooth surfaces in fine facets, turned and tilted, each facet
+// shaded by the shared light (engine.mjs) and drawn back to front. One mark on a transparent
+// background with a dark outline, like Lens of Truth's, plus a version for 32 px and under
+// (shorter, wider ears, bigger eyes, turned less) that fills a small square.
+// Model units: the head is about 66 wide; x right, y down, z towards the viewer.
+import { norm, cross, sub, dot, ramp, svgDoc, f1, pathOf } from "./engine.mjs";
 
 const tan = ramp([
   [0, "#2e2208"], [0.2, "#544210"], [0.34, "#76601e"], [0.48, "#9c7f2c"],
@@ -19,104 +19,153 @@ const plum = ramp([
 export const OUTLINE = "#24180f";
 const EYE = "#22180c";
 
-const mirror = (p) => [100 - p[0], p[1], p[2]];
+const D = Math.PI / 180;
+const add = (...v) => v.reduce((a, b) => a.map((x, i) => x + b[i]));
+const mul = (a, s) => a.map((x) => x * s);
+const rotY = ([x, y, z], d) => [x * Math.cos(d * D) + z * Math.sin(d * D), y, -x * Math.sin(d * D) + z * Math.cos(d * D)];
+const rotX = ([x, y, z], d) => [x, y * Math.cos(d * D) - z * Math.sin(d * D), y * Math.sin(d * D) + z * Math.cos(d * D)];
+const rotZ = ([x, y, z], d) => [x * Math.cos(d * D) - y * Math.sin(d * D), x * Math.sin(d * D) + y * Math.cos(d * D), z];
+/** Rotate vector v about unit axis k by d degrees. */
+const rotAxis = (v, k, d) => {
+  const c = Math.cos(d * D), s = Math.sin(d * D);
+  return add(mul(v, c), mul(cross(k, v), s), mul(k, dot(k, v) * (1 - c)));
+};
+const centroid = (q) => mul(add(...q), 1 / q.length);
 
-// The geometry, as a function of the ear tip, the ears' width and the flaps' length, so the
-// small version can be squarer (shorter, wider ears, shorter flaps) and fill a 16 px square.
-const INSET = 0.56;
-const PROFILE = [[0, 9.5], [0.25, 11.2], [0.5, 10.8], [0.72, 8.6], [0.88, 5.4]];
-function shape({ earTip = [19, -25], widen = 1, flapY = 108 } = {}) {
-  // Hood: top rim, brow crease, lower edge, side and flap point (left half, then mirrored).
-  const T = [[50, 55, 16], [38, 51, 15], [24, 52, 11], [13, 58, 5]];
-  const M = [[50, 63, 18], [37, 62, 17], [23, 64, 12], [11, 67, 4]];
-  const B = [[50, 72, 16], [36, 75, 14], [22, 80, 9]];
-  const SIDE = [10, 77, 1], FLAP = [15, flapY, 0];
-  const hoodLeft = [
-    [T[0], T[1], M[1], M[0]], [T[1], T[2], M[2], M[1]], [T[2], T[3], M[3], M[2]],
-    [M[0], M[1], B[1], B[0]], [M[1], M[2], B[2], B[1]], [M[2], M[3], SIDE, B[2]], [B[2], SIDE, FLAP],
+// --- The model ---------------------------------------------------------------
+// Hood: a band round the head at angle φ (0 at the front), t from its top edge (0) to its
+// bottom edge (1). Past FLAP_START the band narrows to a point: the flaps.
+const PHI_MAX = 106, FLAP_START = 64, THICK = 2.4;
+function hoodEdges(phi, flapY) {
+  const a = Math.abs(phi);
+  if (a <= FLAP_START) {
+    const s = a / FLAP_START;
+    return [46 + 8 * s * s, 75 + 8 * s ** 1.6];
+  }
+  const s = (a - FLAP_START) / (PHI_MAX - FLAP_START);
+  return [54 + (flapY - 54) * s ** 2.2, 83 + (flapY - 83) * s ** 0.55];
+}
+function hoodPoint(phi, t, { flapY, inset = 0 }) {
+  const [top, bot] = hoodEdges(phi, flapY);
+  const taper = 0.93 + 0.07 * t; // narrower towards the crown
+  const bulge = 3 * Math.sin(Math.PI * t); // the brow's rounded crease
+  const rx = (33 - inset) * taper, rz = (27 - inset) * taper + bulge;
+  return [rx * Math.sin(phi * D), top + (bot - top) * t, rz * Math.cos(phi * D)];
+}
+
+// Ear: from its base (just behind the hood's top edge) along its axis a; v runs across it,
+// -1..1. The middle (|v| < HOLLOW) dips into the plum hollow; the rim rolls round it.
+const HOLLOW = 0.52;
+function earFrame(side, { phi = 26, splay = 11, lean = 14, turn = 16 } = {}) {
+  const base = add(hoodPoint(side * phi, 0, { flapY: 106 }), [0, 4, -2.5]);
+  let a = [side * Math.sin(splay * D), -Math.cos(splay * D), 0];
+  a = norm([a[0], a[1] * Math.cos(lean * D), -Math.sin(lean * D)]);
+  let c = norm(cross(a, [0, 0, 1]));
+  let n = norm(cross(c, a));
+  if (n[2] < 0) { n = mul(n, -1); c = mul(c, -1); }
+  // Each ear faces a little outwards.
+  return { base, a, c: rotAxis(c, a, side * turn), n: rotAxis(n, a, side * turn) };
+}
+const earWidth = (u, W) => W * (0.86 + 0.32 * Math.sin(Math.PI * Math.min(u, 1) * 0.9)) * Math.sqrt(Math.max(0, 1 - u ** 2.6));
+function earPoint(f, u, v, { L, W, back = false }) {
+  const av = Math.abs(v);
+  let d;
+  if (back) d = -1.6;
+  else if (av < HOLLOW) d = -3.2 * (1 - (v / HOLLOW) ** 2) * Math.min(1, u * 6) * (1 - u ** 4);
+  else d = 1.6 * Math.sin((Math.PI * (av - HOLLOW)) / (1 - HOLLOW));
+  const curl = 3 * u * u; // the tip leans forward a little
+  return add(f.base, mul(f.a, L * u), mul(f.c, earWidth(u, W) * v), mul(f.n, d + curl));
+}
+
+/** A surface as a grid of quads: fn(u, v) → point, colour(u, v) → ramp, out(quad) → outward. */
+function grid(fn, nu, nv, colour, out, exposure = 0) {
+  const P = [];
+  for (let i = 0; i <= nu; i++) { P.push([]); for (let j = 0; j <= nv; j++) P[i].push(fn(i / nu, j / nv)); }
+  const facets = [];
+  for (let i = 0; i < nu; i++) for (let j = 0; j < nv; j++) {
+    const q = [P[i][j], P[i + 1][j], P[i + 1][j + 1], P[i][j + 1]];
+    facets.push({ q, ramp: colour((i + 0.5) / nu, (j + 0.5) / nv), out: out(q), exposure });
+  }
+  return facets;
+}
+
+/** Every surface of the hood and both ears, at a resolution (fine to draw, coarse to outline). */
+function model({ earL = 76, earW = 14, earPhi = 26, earSplay = 11, flapY = 106, res = 1 } = {}) {
+  const R = (n) => Math.max(2, Math.round(n * res));
+  const radial = (q) => { const c = centroid(q); return [c[0], 0, c[2]]; };
+  const around = (u) => -PHI_MAX + 2 * PHI_MAX * u;
+  const facets = [
+    ...grid((u, v) => hoodPoint(around(u), v, { flapY }), R(44), R(8), () => tan, radial),
+    // The inside of the hood, seen past the far flap: in shadow.
+    ...grid((u, v) => hoodPoint(around(u), v, { flapY, inset: THICK }), R(44), R(8), () => tan, (q) => mul(radial(q), -1), -0.16),
   ];
-  const hood = [...hoodLeft, ...hoodLeft.map((f) => f.map(mirror).reverse())];
-  const hoodOutline = [T[3], T[2], T[1], T[0], ...[T[1], T[2], T[3], SIDE, FLAP, B[2], B[1]].map(mirror), B[0], B[1], B[2], FLAP, SIDE];
-  // Upper half of the hood, lighter in the small version's flat tones.
-  const hoodUpper = [T[3], T[2], T[1], T[0], ...[T[1], T[2], T[3], M[3], M[2], M[1]].map(mirror), M[0], M[1], M[2], M[3]];
+  for (const side of [-1, 1]) {
+    const f = earFrame(side, { phi: earPhi, splay: earSplay }), o = { L: earL, W: earW };
+    facets.push(
+      ...grid((u, v) => earPoint(f, u, -1 + 2 * v, o), R(28), R(22), (u, v) => (Math.abs(-1 + 2 * v) < HOLLOW * 0.92 && u < 0.94 ? plum : tan), () => f.n),
+      ...grid((u, v) => earPoint(f, u, -1 + 2 * v, { ...o, back: true }), R(18), R(6), () => tan, () => mul(f.n, -1), -0.06),
+    );
+  }
+  return facets;
+}
 
-  // Ear (left), built along its axis from the base (hidden under the hood's rim) to the tip:
-  // [distance along the ear 0..1, half-width] for the rim; the plum inner ear is inset in it.
-  // The rim slopes away from the plum edge; the plum dips to a spine down its middle.
-  const base = [33, 60], [dx, dy] = [earTip[0] - base[0], earTip[1] - base[1]], L = Math.hypot(dx, dy);
-  const along = (u, w, z) => [base[0] + dx * u + (-dy / L) * w * widen, base[1] + dy * u + (dx / L) * w * widen, z];
-  const zb = (u) => 10 - 6 * u;
-  const rimPts = [...PROFILE.map(([u, w]) => along(u, w, zb(u))), along(1, 0, zb(1)), ...PROFILE.slice().reverse().map(([u, w]) => along(u, -w, zb(u)))];
-  const innerPts = [...PROFILE.map(([u, w]) => along(u * 0.97, w * INSET, zb(u) + 2)), along(0.93, 0, zb(0.93) + 2), ...PROFILE.slice().reverse().map(([u, w]) => along(u * 0.97, -w * INSET, zb(u) + 2))];
-  const spine = [0, 0.25, 0.5, 0.72].map((u) => along(u * 0.97, 0, zb(u) - 2.5));
-  const ear = (m = (p) => p) => {
-    const R = rimPts.map(m), I = innerPts.map(m), C = spine.map(m);
-    const rim = [];
-    for (let i = 0; i < R.length - 1; i++) rim.push([R[i], R[i + 1], I[i + 1], I[i]]);
-    // Plum: from each side of the inner outline to the spine, closing at the tip.
-    const n = PROFILE.length, tip = I[n], inner = [];
-    for (let i = 0; i < n - 1; i++) {
-      const c0 = C[Math.min(i, C.length - 1)], c1 = C[Math.min(i + 1, C.length - 1)];
-      inner.push([I[i], I[i + 1], c1, c0], [I[2 * n - i], I[2 * n - i - 1], c1, c0]);
-    }
-    inner.push([I[n - 1], tip, C[C.length - 1]], [I[n + 1], tip, C[C.length - 1]]);
-    return { rim, inner, outline: R, innerOutline: I };
-  };
-  const ears = [ear(), ear(mirror)];
-  const pts = [...ears.flatMap((e) => e.outline), ...hoodOutline];
+// --- Drawing -----------------------------------------------------------------
+// Turned so the face looks to the right, seen a little from below, tilted clockwise. The small
+// version is turned less, so it stays a compact silhouette at 16 px.
+export const VIEW = { yaw: 26, pitch: -4, roll: 16 };
+const SMALL_VIEW = { yaw: 12, pitch: -4, roll: 8 };
+const view = (p, v) => rotZ(rotX(rotY(p, v.yaw), v.pitch), v.roll);
+
+function project(facets, v) {
+  return facets.map((f) => {
+    const q = f.q.map((p) => view(p, v));
+    let n = cross(sub(q[2], q[0]), sub(q[3], q[1]));
+    if (dot(n, view(f.out, v)) < 0) n = mul(n, -1);
+    return { ...f, q, n: norm(n), depth: centroid(q)[2] };
+  });
+}
+
+function draw({ size, fill, simple, v, outlineW }) {
+  const shape = simple ? { earL: 62, earW: 15.5, earPhi: 32, earSplay: 19, flapY: 92 } : {};
+  const flapY = shape.flapY ?? 106;
+  // Visible facets, back to front; the coarse model (both sides) gives the outline.
+  const fine = project(model(shape), v).filter((f) => f.n[2] > 0).sort((a, b) => a.depth - b.depth);
+  const coarse = project(model({ ...shape, res: 0.3 }), v);
+  const pts = coarse.flatMap((f) => f.q);
   const xs = pts.map((p) => p[0]), ys = pts.map((p) => p[1]);
-  return { hood, hoodOutline, hoodUpper, ears, box: { x0: Math.min(...xs), x1: Math.max(...xs), y0: Math.min(...ys), y1: Math.max(...ys) } };
-}
-const FULL = shape();
-const SMALL = shape({ earTip: [16, -2], widen: 1.25, flapY: 96 });
-const EYES = [[37, 64], [63, 64]];
+  const [x0, x1, y0, y1] = [Math.min(...xs), Math.max(...xs), Math.min(...ys), Math.max(...ys)];
+  const S = (size * fill) / (Math.max(x1 - x0, y1 - y0) / 2), cx = (x0 + x1) / 2, cy = (y0 + y1) / 2;
+  const place = ([x, y]) => [size / 2 + (x - cx) * S, size / 2 + (y - cy) * S];
 
-/** Shade a facet: the normal from its diagonals (quads) or edges (triangles), facing the viewer. */
-function shade(f, r, m) {
-  let n = f.length === 4 ? cross(sub(f[2], f[0]), sub(f[3], f[1])) : cross(sub(f[1], f[0]), sub(f[2], f[0]));
-  if (n[2] < 0) n = n.map((v) => -v);
-  return r.shade(norm(n), m);
-}
-const poly = (pts, place, fill) => `<path d="${pathOf(pts.map(place))}" fill="${fill}" stroke="${fill}" stroke-width="0.6" stroke-linejoin="round"/>`;
-
-function draw(place, m, { simple = false } = {}) {
-  const g = simple ? SMALL : FULL;
+  const m = { ambient: 0.16, diffuse: 0.66, spec: simple ? 0.14 : 0.28 };
   let body = "";
-  for (const e of g.ears) {
-    if (simple) {
-      // Flat tones: the rim in one tan, the inner ear in one plum.
-      body += poly(e.outline, place, tan.tone(0.66 + (m.exposure ?? 0))) + poly(e.innerOutline, place, plum.tone(0.4));
-    } else {
-      for (const f of e.rim) body += poly(f, place, shade(f, tan, m));
-      for (const f of e.inner) body += poly(f, place, shade(f, plum, m));
-    }
+  for (const f of fine) {
+    const c = f.ramp.shade(f.n, { ...m, exposure: f.exposure });
+    body += `<path d="${pathOf(f.q.map(place))}" fill="${c}" stroke="${c}" stroke-width="1.3" stroke-linejoin="round"/>`;
   }
-  if (simple) {
-    body += poly(g.hoodOutline, place, tan.tone(0.58 + (m.exposure ?? 0))) + poly(g.hoodUpper, place, tan.tone(0.74 + (m.exposure ?? 0)));
-  } else {
-    for (const f of g.hood) body += poly(f, place, shade(f, tan, m));
+  // Eyes on the brow, following the hood's curve, with a glint towards the light.
+  for (const phi of [-21, 21]) {
+    const o = { flapY }, t = 0.45;
+    const c0 = hoodPoint(phi, t, o);
+    const tu = norm(sub(hoodPoint(phi + 0.5, t, o), hoodPoint(phi - 0.5, t, o)));
+    const tv = norm(sub(hoodPoint(phi, t + 0.02, o), hoodPoint(phi, t - 0.02, o)));
+    let nrm = norm(cross(tu, tv));
+    if (dot(nrm, [c0[0], 0, c0[2]]) < 0) nrm = mul(nrm, -1);
+    if (view(nrm, v)[2] < 0.15) continue;
+    const [rx, ry] = simple ? [5.6, 4.6] : [4.2, 3.4];
+    const C = place(view(add(c0, mul(nrm, 0.3)), v)), U = view(mul(tu, rx * S), v), V = view(mul(tv, ry * S), v);
+    body += `<ellipse rx="1" ry="1" fill="${EYE}" transform="matrix(${[U[0], U[1], V[0], V[1], C[0], C[1]].map(f1).join(" ")})"/>`;
+    if (!simple) body += `<circle cx="${f1(C[0] - 1.3 * S)}" cy="${f1(C[1] - 1.2 * S)}" r="${f1(1.05 * S)}" fill="#ffffff" fill-opacity="0.85"/>`;
   }
-  // Eyes: small dark ovals with a glint towards the light.
-  const S = place.scale, [rx, ry] = simple ? [5.6, 4.6] : [4.2, 3.3];
-  for (const [x, y] of EYES) {
-    const [cx, cy] = place([x, y]);
-    body += `<ellipse cx="${f1(cx)}" cy="${f1(cy)}" rx="${f1(rx * S)}" ry="${f1(ry * S)}" fill="${EYE}"/>`;
-    if (!simple) body += `<circle cx="${f1(cx - 1.3 * S)}" cy="${f1(cy - 1.1 * S)}" r="${f1(1.1 * S)}" fill="#ffffff" fill-opacity="0.85"/>`;
-  }
-  const silhouettes = g.ears.map((e) => `<path d="${pathOf(e.outline.map(place))}"/>`).join("") + `<path d="${pathOf(g.hoodOutline.map(place))}"/>`;
-  return { silhouettes, body };
+  const ring = `<g fill="${OUTLINE}" stroke="${OUTLINE}" stroke-width="${f1(size * outlineW * 2)}" stroke-linejoin="round">${coarse.map((f) => `<path d="${pathOf(f.q.map(place))}"/>`).join("")}</g>`;
+  return ring + body;
 }
-
 
 /**
  * The hood on a transparent background with a dark outline: toolbar and app icon, header
  * logo, Ice Cavern door. `simple` is the version for 32 px and under.
  */
-export function bare({ size = 512, fill = 0.44, outline, simple = false } = {}) {
-  const b = (simple ? SMALL : FULL).box, extent = Math.max(b.x1 - b.x0, b.y1 - b.y0) / 2;
-  const place = placement(size, { extent, box: b, origin: [(b.x0 + b.x1) / 2, (b.y0 + b.y1) / 2], fill });
-  const e = draw(place, { ambient: 0.16, diffuse: 0.66, spec: 0.28 }, { simple });
-  const w = outline ?? (simple ? 0.045 : 0.022);
-  const ring = `<g fill="${OUTLINE}" stroke="${OUTLINE}" stroke-width="${f1(size * w * 2)}" stroke-linejoin="round">${e.silhouettes}</g>`;
-  return svgDoc({ size, body: ring + e.body, title: "Bunny Hood" });
+export function bare({ size = 512, fill = 0.44, outline, simple = false, view: v = simple ? SMALL_VIEW : VIEW } = {}) {
+  const outlineW = outline ?? (simple ? 0.045 : 0.022);
+  return svgDoc({ size, body: draw({ size, fill, simple, v, outlineW }), title: "Bunny Hood" });
 }

@@ -128,8 +128,9 @@ function project(facets, v) {
 function draw({ size, fill, simple, v, outlineW }) {
   const shape = simple ? { earL: 62, earW: 15.5, earPhi: 32, earSplay: 19, flapY: 92 } : {};
   const flapY = shape.flapY ?? 106;
-  // Visible facets, back to front; the coarse model (both sides) gives the outline.
-  const fine = project(model(shape), v).filter((f) => f.n[2] > 0).sort((a, b) => a.depth - b.depth);
+  // Visible facets, back to front (half as fine for the small version, which is never shown
+  // large); the coarse model (both sides) gives the outline.
+  const fine = project(model({ ...shape, res: simple ? 0.5 : 1 }), v).filter((f) => f.n[2] > 0).sort((a, b) => a.depth - b.depth);
   const coarse = project(model({ ...shape, res: 0.3 }), v);
   const pts = coarse.flatMap((f) => f.q);
   const xs = pts.map((p) => p[0]), ys = pts.map((p) => p[1]);

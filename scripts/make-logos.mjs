@@ -6,6 +6,7 @@
 //   node scripts/make-logos.mjs ice        Ice Cavern only
 //   node scripts/make-logos.mjs temple     Temple of Time only
 //   node scripts/make-logos.mjs lens       Lens of Truth only
+//   node scripts/make-logos.mjs bunny      bunny-hood only (output is git-ignored: it goes to a private repo)
 //   node scripts/make-logos.mjs saria      Saria's Song only (output is git-ignored: it goes to a private repo)
 // Forest goes into the site (src/assets/logo, public/). Other projects go into logos/<project>/,
 // for copying into their own repos.
@@ -17,6 +18,7 @@ import * as ice from "./logos/ice.mjs";
 import * as temple from "./logos/temple.mjs";
 import * as saria from "./logos/saria.mjs";
 import * as lens from "./logos/lens.mjs";
+import * as bunny from "./logos/bunny.mjs";
 import { renderPngs, writeIco } from "./logos/engine.mjs";
 import { SITE_TITLE } from "../site.config.mjs";
 
@@ -168,6 +170,24 @@ if (want("lens")) {
   await writeFile(`${out}/site.webmanifest`, manifest("Lens of Truth", "Lens", "#f4f3f8"));
   await writeIco(`${out}/lens-of-truth.ico`, await Promise.all([16, 24, 32, 48, 64, 128, 256].map(async (size) => ({ size, png: await readFile(`${out}/png/lens-${size}.png`) }))));
   console.log(`lens: ${out}/`);
+}
+
+if (want("bunny")) {
+  // bunny-hood is private: these files are git-ignored here and handed over as a folder.
+  const out = "logos/bunny-hood";
+  await mkdir(`${out}/png`, { recursive: true });
+  await mkdir(`${out}/icons`, { recursive: true });
+  const full = bunny.bare(), small = bunny.bare({ simple: true });
+  await writeFile(`${out}/logo.svg`, full);
+  await writeFile(`${out}/logo-small.svg`, small);
+  // 32 px and under use the small version (squarer, flat tones, bigger eyes).
+  const pick = (size) => (size <= 32 ? small : full);
+  const sizes = [16, 24, 32, 48, 64, 128, 180, 192, 256, 512, 1024];
+  await renderPngs(sizes.map((size) => ({ svg: pick(size), size, path: `${out}/png/logo-${size}.png` })));
+  // The extension's manifest icons and toolbar button (PNG only).
+  for (const size of [16, 32, 48, 128]) await writeFile(`${out}/icons/icon-${size}.png`, await readFile(`${out}/png/logo-${size}.png`));
+  await writeIco(`${out}/bunny-hood.ico`, await Promise.all([16, 24, 32, 48, 64, 128, 256].map(async (size) => ({ size, png: await readFile(`${out}/png/logo-${size}.png`) }))));
+  console.log(`bunny: ${out}/`);
 }
 
 async function renderOg(html) {

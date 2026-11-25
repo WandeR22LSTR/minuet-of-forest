@@ -1,0 +1,239 @@
+{
+  "lens": 1,
+  "page": "home",
+  "sections": [
+    {
+      "id": "intro",
+      "props": {
+        "label": "Intro",
+        "surface": "base",
+        "padding": "none",
+        "gap": "md"
+      },
+      "blocks": [
+        {
+          "id": "logo",
+          "type": "logo",
+          "props": {
+            "size": 96
+          },
+          "layout": {
+            "col": 1,
+            "span": 2,
+            "at": {
+              "sm": {
+                "span": 3
+              }
+            }
+          }
+        },
+        {
+          "id": "intro-text",
+          "type": "group",
+          "props": {
+            "gap": "xs",
+            "surface": "base"
+          },
+          "layout": {
+            "col": 3,
+            "span": 10,
+            "at": {
+              "sm": {
+                "col": 4,
+                "span": 9
+              }
+            }
+          },
+          "children": [
+            {
+              "id": "title",
+              "type": "heading",
+              "props": {
+                "text": "Luca Simeoni",
+                "level": 1,
+                "align": "center"
+              },
+              "layout": {
+                "col": 1,
+                "span": 12
+              }
+            },
+            {
+              "id": "lede",
+              "type": "text",
+              "props": {
+                "markdown": "Portfolio for my personal projects, resume, and language learning journey",
+                "maxWidth": "full",
+                "align": "center"
+              },
+              "layout": {
+                "col": 1,
+                "span": 12,
+                "at": {
+                  "md": {
+                    "col": 4,
+                    "span": 6
+                  },
+                  "sm": {
+                    "col": 1,
+                    "span": 12
+                  }
+                }
+              }
+            },
+            {
+              "id": "research-button",
+              "type": "button",
+              "props": {
+                "label": "Research",
+                "href": "/research/",
+                "variant": "secondary",
+                "align": "center"
+              },
+              "layout": {
+                "col": 1,
+                "span": 12
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sections",
+      "props": {
+        "label": "Sections",
+        "surface": "sage",
+        "padding": "lg",
+        "gap": "md"
+      },
+      "blocks": [
+        {
+          "id": "preview-docs",
+          "type": "card",
+          "props": {
+            "title": "Docs",
+            "text": "Documentation for project development and research processes.",
+            "href": "/docs/",
+            "pending": "",
+            "style": "plain"
+          },
+          "layout": {
+            "col": 1,
+            "span": 4,
+            "at": {
+              "md": {
+                "col": 1,
+                "span": 6
+              },
+              "sm": {
+                "col": 1,
+                "span": 12
+              }
+            }
+          }
+        },
+        {
+          "id": "preview-cv",
+          "type": "card",
+          "props": {
+            "title": "CV",
+            "text": "Collection of professional materials, research overview, resume, CV, etc.",
+            "href": "/cv/",
+            "pending": "",
+            "style": "plain"
+          },
+          "layout": {
+            "col": 5,
+            "span": 4,
+            "at": {
+              "md": {
+                "col": 7,
+                "span": 6
+              },
+              "sm": {
+                "col": 1,
+                "span": 12
+              }
+            }
+          }
+        },
+        {
+          "id": "preview-garden",
+          "type": "card",
+          "props": {
+            "title": "Garden",
+            "text": "Digital showcase of my Obsidian Vault, Japanese learning journey, and public writing.",
+            "href": "/garden/",
+            "pending": "",
+            "style": "plain"
+          },
+          "layout": {
+            "col": 9,
+            "span": 4,
+            "at": {
+              "md": {
+                "col": 1,
+                "span": 6
+              },
+              "sm": {
+                "col": 1,
+                "span": 12
+              }
+            }
+          }
+        },
+        {
+          "id": "preview-japanese",
+          "type": "card",
+          "props": {
+            "title": "Japanese",
+            "text": "[one line about the Japanese section]",
+            "href": "/japanese/",
+            "pending": "",
+            "style": "plain"
+          },
+          "layout": {
+            "col": 1,
+            "span": 6,
+            "at": {
+              "md": {
+                "col": 7,
+                "span": 6
+              },
+              "sm": {
+                "col": 1,
+                "span": 12
+              }
+            }
+          }
+        },
+        {
+          "id": "preview-about",
+          "type": "card",
+          "props": {
+            "title": "About",
+            "text": "Statement of purpose for Minuet.",
+            "href": "/about/",
+            "pending": "",
+            "style": "plain"
+          },
+          "layout": {
+            "col": 7,
+            "span": 6,
+            "at": {
+              "md": {
+                "col": 1,
+                "span": 6
+              },
+              "sm": {
+                "col": 1,
+                "span": 12
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

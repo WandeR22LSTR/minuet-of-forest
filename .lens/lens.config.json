@@ -1,0 +1,117 @@
+{
+  "lensConfig": 1,
+  "framework": "astro",
+  "dev": {
+    "command": "npm run dev -- --port {port} --host 127.0.0.1 --ignore-lock",
+    "url": "http://127.0.0.1:{port}"
+  },
+  "base": "/minuet-of-forest",
+  "drafts": true,
+  "pages": [
+    {
+      "name": "home",
+      "layout": "src/data/layouts/home.layout.json",
+      "route": "/"
+    },
+    {
+      "name": "about",
+      "layout": "src/data/layouts/about.layout.json",
+      "route": "/about/"
+    },
+    {
+      "name": "cv",
+      "layout": "src/data/layouts/cv.layout.json",
+      "route": "/cv/"
+    },
+    {
+      "name": "garden",
+      "layout": "src/data/layouts/garden.layout.json",
+      "route": "/garden/"
+    },
+    {
+      "name": "japanese",
+      "layout": "src/data/layouts/japanese.layout.json",
+      "route": "/japanese/"
+    }
+  ],
+  "content": [
+    {
+      "name": "Docs and research",
+      "dir": "src/content/docs",
+      "route": "/"
+    },
+    {
+      "name": "Garden",
+      "dir": "src/content/pages",
+      "route": "/garden/"
+    },
+    {
+      "name": "Japanese",
+      "dir": "src/content/japanese",
+      "route": "/japanese/"
+    }
+  ],
+  "data": [
+    {
+      "name": "Site text",
+      "file": "src/data/copy.yaml",
+      "route": "/"
+    },
+    {
+      "name": "Contact",
+      "file": "src/data/contact.yaml",
+      "route": "/about/"
+    },
+    {
+      "name": "Projects",
+      "file": "src/data/projects.yaml",
+      "route": "/docs/"
+    },
+    {
+      "name": "Resume (Physics)",
+      "file": "src/data/resume.yaml",
+      "route": "/resume/"
+    },
+    {
+      "name": "Resume (Japanese)",
+      "file": "src/data/resume-jp.yaml",
+      "route": "/resume/jp/"
+    }
+  ],
+  "roadmap": "docs/roadmap.md",
+  "breakpoints": [
+    {
+      "name": "md",
+      "maxWidth": 1024
+    },
+    {
+      "name": "sm",
+      "maxWidth": 640
+    }
+  ],
+  "tokens": {
+    "space": [
+      "none",
+      "xs",
+      "sm",
+      "md",
+      "lg",
+      "xl"
+    ],
+    "surface": [
+      "base",
+      "sage",
+      "white"
+    ],
+    "measure": [
+      "narrow",
+      "prose",
+      "wide",
+      "full"
+    ]
+  },
+  "assets": {
+    "dir": "public/images",
+    "url": "/images/"
+  }
+}

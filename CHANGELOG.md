@@ -3,6 +3,38 @@
 The version is in `package.json` and shows in the site footer next to the medallion.
 Bump it with every release and add an entry here.
 
+## 0.9.1 (2026-11-13)
+- **Japanese** joins the top bar as a fifth section (`/japanese/`), for coursework, language progress, projects and writing samples.
+  - The landing page is a Lens page: an introduction, an automatic list of the section's published pages (new `page-list` block), and a button to the Japanese resume.
+  - Each area is a Markdown page at `/japanese/<name>/` (`src/content/japanese/`), edited and added in Lens. Four start as drafts: Coursework, Language progress, Projects, Writing samples.
+  - The homepage band previews five sections (three, then two).
+- **Two resumes:** Physics (`/resume/`, `resume.pdf`) and Japanese (`/resume/jp/`, `resume-jp.pdf`), each from its own data file and both editable in Lens. A switch at the top of each moves between them, and each version's name comes from its file (`version`). Checks cover both pages and both PDFs; Japanese text prints as selectable text in the PDF.
+- Contact email set, in Contact and both resumes.
+- Roadmap: the applications sprint updated for what's decided (email, research credit as on the fellowship poster), with the two resumes, the Japanese section and target dates (resumes by Dec 1; research and Japanese by early January). Application details stay outside this public repo.
+
+## 0.9.0 (2026-10-31)
+Four sections, one top bar: **Docs · CV · Garden · About** (see `docs/site-plan.md`).
+- **Docs** absorbs Projects: the Docs landing page lists every project and links to research once it's published. The site's top bar now also shows on docs and research pages (in Starlight's menu on phones).
+- **CV** (`/cv/`): a research highlight, selected projects, Resume and PDF buttons, and contact details.
+- **Garden** (`/garden/`): Currently moves in, at `/garden/currently/`.
+- **About** (`/about/`): about the portfolio, the statement of purpose, and contact details.
+- The homepage keeps Luca's intro and gains a Research button (shown once research is published) and a band previewing each section.
+- About, CV and Garden are Lens of Truth pages, editable like the homepage. New Lens blocks: `contacts`; cards gain a `plain` style; buttons gain alignment and wait for draft pages to be published.
+- Docs, research and Garden's Markdown pages are listed for Lens of Truth (`content` in `.lens/lens.config.json`), so Lens 0.4.0 edits them as text beside the live page and creates new ones as drafts.
+- Old addresses forward: `/projects/` to `/docs/`, `/contact/` to `/about/`, `/currently/` to `/garden/currently/` (to `/garden/` while Currently is a draft).
+
+## 0.8.1 (2026-10-29)
+- Lens of Truth shows the site as published: with `LENS_DRAFTS=0` (which Lens 0.3.0 sets), the dev server hides draft pages from links, navigation and the homepage, as the build does. Lens's Drafts switch shows them again. Plain `npm run dev` is unchanged and still shows drafts.
+
+## 0.8.0 (2026-10-22)
+- The homepage can be edited in Lens of Truth, Luca's layout editor: it is rendered from
+  `src/data/layouts/home.layout.json` through `.lens/` (see `.lens/CLAUDE.md` and
+  `docs/lens-of-truth-handoff.md`). It looks as before, and its wording is unchanged.
+  The logo, the Research card's link and the Currently snippet stay dynamic.
+- The homepage's text moved from `copy.yaml` into its layout file; `npm run todos` lists
+  placeholders in layout files too.
+- Fix: the homepage's Currently snippet showed the page's second section instead of its first.
+
 ## 0.7.0 (2026-10-20)
 - Phase 1 structure (see `docs/site-plan.md`): CV and About pages removed; Now page replaced by Currently (media);
   research and capstone moved into the docs layout with LaTeX maths (KaTeX, self-hosted); capstone progress log

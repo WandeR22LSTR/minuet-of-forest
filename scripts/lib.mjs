@@ -27,6 +27,7 @@ export async function draftFiles() {
 export function routeOf(file) {
   return file
     .replace(/^src\/content\/docs\//, "/")
-    .replace(/^src\/content\/pages\//, "/")
+    .replace(/^src\/content\/pages\//, "/garden/")
+    .replace(/^src\/content\/japanese\//, "/japanese/")
     .replace(/(\/index)?\.mdx?$/, "/");
 }

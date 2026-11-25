@@ -1,0 +1,22 @@
+---
+// Japanese section pages written in Markdown (src/content/japanese/), at /japanese/<name>/.
+// Drafts are only built in development. The section's landing page is japanese.astro.
+import { render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import { japanesePages, url } from "../../lib/site";
+
+export async function getStaticPaths() {
+  return (await japanesePages()).map((entry) => ({ params: { page: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const fmt = (d: Date) => d.toLocaleDateString("en-GB", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" });
+---
+<Base title={entry.data.title} description={entry.data.description} draft={entry.data.draft}>
+  <article>
+    <p class="muted"><a href={url("/japanese/")}>Japanese</a></p>
+    <h1>{entry.data.title}</h1>
+    {entry.data.updated && <p class="muted">Last updated <time datetime={entry.data.updated.toISOString().slice(0, 10)}>{fmt(entry.data.updated)}</time></p>}
+    <Content />
+  </article>
+</Base>

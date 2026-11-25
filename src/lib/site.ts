@@ -1,6 +1,8 @@
 import { getCollection } from "astro:content";
 import { parse } from "yaml";
 import copyRaw from "../data/copy.yaml?raw";
+import resumeRaw from "../data/resume.yaml?raw";
+import resumeJpRaw from "../data/resume-jp.yaml?raw";
 
 /** Site copy (src/data/copy.yaml). Placeholders in [brackets] until Luca writes them. */
 export const copy = parse(copyRaw);
@@ -11,8 +13,12 @@ export function url(path = "/"): string {
   return base + (path.startsWith("/") ? path : `/${path}`);
 }
 
-/** Show drafts while developing, hide them from production builds. */
-export const SHOW_DRAFTS = import.meta.env.DEV;
+/**
+ * Show drafts while developing, hide them from production builds. Lens of Truth
+ * previews the site as published by starting dev with LENS_DRAFTS=0 (its Drafts
+ * switch sets 1).
+ */
+export const SHOW_DRAFTS = import.meta.env.DEV && process.env.LENS_DRAFTS !== "0";
 
 /** A value still waiting for Luca. Such values are never rendered. */
 export function isTodo(value: unknown): boolean {
@@ -44,17 +50,60 @@ export async function researchPublished() {
   return (await getCollection("docs", ({ id, data }) => id === "research" && (SHOW_DRAFTS || !data.draft))).length > 0;
 }
 
-/** Main navigation. Pages backed by a draft entry disappear in production. */
-export async function navItems() {
+/** Main navigation: the site's five sections. */
+const NAV = [
+  { href: "/docs/", label: "Docs" },
+  { href: "/cv/", label: "CV" },
+  { href: "/garden/", label: "Garden" },
+  { href: "/japanese/", label: "Japanese" },
+  { href: "/about/", label: "About" },
+];
+
+/** Pages that exist only once their entry is published (drafts are hidden in production). */
+const GATED = [
+  { href: "/research/", entry: "research" },
+  { href: "/garden/currently/", entry: "currently" },
+];
+
+/** IDs of published entries: the pages collection, plus "research" once it is published. */
+async function liveEntries() {
   const live = new Set((await publishedPages()).map((p) => p.id));
   if (await researchPublished()) live.add("research");
-  const items = [
-    { href: "/research/", label: "Research", entry: "research" },
-    { href: "/projects/", label: "Projects" },
-    { href: "/docs/", label: "Docs" },
-    { href: "/resume/", label: "Resume" },
-    { href: "/currently/", label: "Currently", entry: "currently" },
-    { href: "/contact/", label: "Contact" },
+  return live;
+}
+
+/** Main navigation. */
+export async function navItems() {
+  return NAV;
+}
+
+/** Whether a site path can be linked: false for a page whose entry is still a draft in production. */
+export async function isPublished(href: string) {
+  const entry = GATED.find((i) => i.href === href)?.entry;
+  return !entry || (await liveEntries()).has(entry);
+}
+
+/** The Japanese section's pages, in title order: drafts only while developing. */
+export async function japanesePages() {
+  const pages = await getCollection("japanese", ({ data }) => SHOW_DRAFTS || !data.draft);
+  return pages.sort((a, b) => a.data.title.localeCompare(b.data.title));
+}
+
+/** The first section of the Currently page (its heading, then its lines), if the page is published. */
+export async function currentlySnippet() {
+  const now = (await publishedPages()).find((p) => p.id === "currently");
+  const lines = now?.body?.split(/^## /m)[1]?.split("\n").filter(Boolean);
+  return lines ? { heading: lines[0], text: lines.slice(1).join(" ") } : undefined;
+}
+
+/** The resume versions, for the switch at the top of each: name (from its data file) and address. */
+export function resumeVersions() {
+  const label = (raw: string, fallback: string) => {
+    const v = (parse(raw) as { version?: unknown } | null)?.version;
+    return typeof v === "string" && v.trim() && !isTodo(v) ? v : fallback;
+  };
+  return [
+    { label: label(resumeRaw, "Physics"), href: "/resume/", pdf: "/resume.pdf" },
+    { label: label(resumeJpRaw, "Japanese"), href: "/resume/jp/", pdf: "/resume-jp.pdf" },
   ];
-  return items.filter((i) => !i.entry || live.has(i.entry));
 }

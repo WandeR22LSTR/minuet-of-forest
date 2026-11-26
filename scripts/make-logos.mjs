@@ -180,12 +180,15 @@ if (want("bunny")) {
   const full = bunny.bare(), small = bunny.bare({ simple: true });
   await writeFile(`${out}/logo.svg`, full);
   await writeFile(`${out}/logo-small.svg`, small);
+  // The README shows the remake's cord and bow under the band; nothing else does.
+  await writeFile(`${out}/logo-readme.svg`, bunny.bare({ cord: true }));
   // 32 px and under use the small version (squarer, flat tones, bigger eyes).
   const pick = (size) => (size <= 32 ? small : full);
   const sizes = [16, 24, 32, 48, 64, 128, 180, 192, 256, 512, 1024];
   await renderPngs(sizes.map((size) => ({ svg: pick(size), size, path: `${out}/png/logo-${size}.png` })));
   // The extension's manifest icons and toolbar button (PNG only).
   for (const size of [16, 32, 48, 128]) await writeFile(`${out}/icons/icon-${size}.png`, await readFile(`${out}/png/logo-${size}.png`));
+  await renderPngs([{ svg: bunny.bare({ cord: true }), size: 512, path: `${out}/png/logo-readme-512.png` }]);
   await writeIco(`${out}/bunny-hood.ico`, await Promise.all([16, 24, 32, 48, 64, 128, 256].map(async (size) => ({ size, png: await readFile(`${out}/png/logo-${size}.png`) }))));
   console.log(`bunny: ${out}/`);
 }

@@ -1,7 +1,9 @@
-// bunny-hood: the Bunny Hood from Ocarina of Time, after its remake look: a soft padded band
-// that arcs over the head, widest at the front where its two small dark eyes are, with two
+// bunny-hood: the Bunny Hood from Ocarina of Time, between the game's hood and its remake's
+// headband: a soft padded band that arcs over the head, deep like a hood's brow at the front
+// where its two small dark eyes are and tapering to the ends at the sides, with two
 // long rounded ears rising from it (a rolled golden tan rim round a concave plum hollow) and,
-// optionally, a thin cord looped under it with a bow. An original drawing after the item.
+// on the README version only, the remake's thin cord looped under it with a bow. An original
+// drawing after the item.
 // It is a small 3D model: smooth surfaces in fine facets, turned a little, each facet shaded
 // by the shared light (engine.mjs) and drawn back to front. One mark on a transparent
 // background with a dark outline, like Lens of Truth's, plus a version for 32 px and under
@@ -96,7 +98,7 @@ function grid(fn, nu, nv, colour, out, exposure = 0) {
 }
 
 /** Every surface of the band and both ears, at a resolution (fine to draw, coarse to outline). */
-function model({ earL = 74, earW = 15.5, earAt = 24, earSplay = 13, width = 24, thick = 9, flare = 0.38, res = 1 } = {}) {
+function model({ earL = 74, earW = 15.5, earAt = 24, earSplay = 13, width = 34, thick = 10, flare = 0.55, res = 1 } = {}) {
   const R = (n) => Math.max(2, Math.round(n * res));
   const along = (u) => -BAND_END + 2 * BAND_END * u;
   const size = { width, thick, flare };
@@ -175,7 +177,7 @@ function draw({ size, fill, simple, v, outlineW, tweak, cord }) {
   }
   // Eyes on the band's front face (where it faces the viewer most), following its curve, with
   // a glint towards the light.
-  const sizeOf = { width: shape.width ?? 24, thick: shape.thick ?? 9, flare: shape.flare ?? 0.38 };
+  const sizeOf = { width: shape.width ?? 34, thick: shape.thick ?? 10, flare: shape.flare ?? 0.55 };
   for (const side of [-1, 1]) {
     const a = side * 13, fr = bandFrame(a);
     const dirAt = (th) => add(mul(fr.N, Math.cos(th)), mul(fr.B, Math.sin(th)));
